@@ -1,3 +1,6 @@
+@import '../node_modules/@mui/material/Typography/Typography';
+
+
 .App {
   text-align: center;
 }
@@ -37,7 +40,8 @@
   }
 }
 
-.DayContainer{
-  background-color: #FFF7E2;
+.MuiTypography-root {
+  font-size: 16px;
   font-family: "Inter";
+  font-weight: 900;
 }
