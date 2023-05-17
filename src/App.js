@@ -4,14 +4,9 @@ import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
-import Card from '@mui/material/Card';
-import Box from '@mui/material/Box';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
 import * as React from 'react';
 import { useState, useRef } from 'react';
 import Weather from "./Weather.js";
-import SuccessSlider from "./test"
 import "@fontsource/inter";
 
 
@@ -109,10 +104,13 @@ function App(){
   return (
     <div className="App">
       <Grid container>
-        <Grid item md={1.7} className={days[1]} key={days[1].id}>
-          <Typography className='DayContainer'  sx={{ fontFamily: 'Inter', fontWeight: 900, fontSize: '16px' }}>{days[0]}</Typography>
+        <Grid item md={1.7} className={days[1]} key={days[1].id} >
+          <Typography className='DayContainer'  sx={{ fontFamily: 'Inter', fontWeight: 900, fontSize: '16px', textAlign: 'left' }}>
+            {days[0]}
+          </Typography>
+          <Stack sx={{backgroundColor: '#FFF7E2', border: 2, borderColor: '#706445'}}>
           {task.map((task, index) => (
-            <Paper draggable onClick={() => handleTaskClick(index)}
+            <Paper color="primary" draggable onClick={() => handleTaskClick(index)}
             onDragStart={(e) => dragStart(e, index)}
             onDragEnter={(e) => dragEnter(e, index)}
             onDragEnd={drop} key = {index.toString()}>
@@ -123,7 +121,6 @@ function App(){
                   onChange={(e) => setInputValue(e.target.value)}
                   onKeyDown={(e) => {if (e.key === "Enter")
                                       handleTaskNameChange(index, inputValue)}}
-                  
                 />
               ) : (
                 <span>{task.taskName}</span>
@@ -132,6 +129,8 @@ function App(){
           ))}
           <Paper onClick={() => handleNewItem()}>Add Task</Paper>
           <Weather city={city} units={units} degree={degree}/>
+          </Stack>
+          
         </Grid>
       </Grid>
       <Stack direction="row" spacing={2}>
