@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Alert from '@mui/material/Alert';
-import { API_KEY } from './config.js';
+import { API_KEY } from '../config.js';
 
 
 function Weather(props) {
