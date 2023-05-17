@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Alert from '@mui/material/Alert';
+import { API_KEY } from './config.js';
 
-const API_KEY = "5385e347aca2efb1f4a05e744f5a77c7";
 
 function Weather(props) {
     const [weatherData, setWeatherData] = useState(null);
