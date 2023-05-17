@@ -1,25 +1,3 @@
-import logo from './logo.svg';
-import './App.scss';
-
-<<<<<<< Updated upstream
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-=======
 import './App.css';
 import Stack from '@mui/material/Stack';
 import Paper from '@mui/material/Paper';
@@ -163,7 +141,6 @@ function App(){
         <Button variant="outlined" onClick={() => handleUnitChange(units)}>{unitdisplay}</Button>
         <Button variant="outlined" onClick={handleCityChange}>Select Location</Button>
       </Stack>
->>>>>>> Stashed changes
     </div>
   );
 }
