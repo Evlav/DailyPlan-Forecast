@@ -8,6 +8,8 @@ import * as React from 'react';
 import { useState, useRef } from 'react';
 import Weather from "./Weather.js";
 import "@fontsource/inter";
+import { Container } from '@mui/system';
+import { Card } from '@mui/material';
 
 
 
@@ -102,45 +104,56 @@ function App(){
     }
 
   return (
-    <div className="App">
+    
+      <Container sx={{px: '30px', py:'30px'}} className="App">
       <Grid container>
         <Grid item md={1.7} className={days[1]} key={days[1].id} >
-          <Typography className='DayContainer'  sx={{ fontFamily: 'Inter', fontWeight: 900, fontSize: '16px', textAlign: 'left' }}>
-            {days[0]}
+          <Typography className='DayContainer'  
+            sx={{ fontFamily: 'Inter', fontWeight: 900, fontSize: '32px', textAlign: 'left', mb:'10px' }}>
+              {days[0]}
           </Typography>
-          <Stack sx={{backgroundColor: '#FFF7E2', border: 2, borderColor: '#706445'}}>
-          {task.map((task, index) => (
-            <Paper color="primary" draggable onClick={() => handleTaskClick(index)}
-            onDragStart={(e) => dragStart(e, index)}
-            onDragEnter={(e) => dragEnter(e, index)}
-            onDragEnd={drop} key = {index.toString()}>
-              {task.taskEditable ? (
-                <input
-                  type="text"
-                  value={inputValue}
-                  onChange={(e) => setInputValue(e.target.value)}
-                  onKeyDown={(e) => {if (e.key === "Enter")
-                                      handleTaskNameChange(index, inputValue)}}
-                />
-              ) : (
-                <span>{task.taskName}</span>
-              )}
-            </Paper>
-          ))}
-          <Paper onClick={() => handleNewItem()}>Add Task</Paper>
-          <Weather city={city} units={units} degree={degree}/>
-          </Stack>
+          <Stack sx={{backgroundColor: '#FFF7E2', border: 2, borderColor: '#706445', minHeight:'300px', mb:'15px', direction:"column", justifyContent:'space-between'}}>
+            <Container disableGutters>
+              {task.map((task, index) => (
+                <Paper color="primary" draggable onClick={() => handleTaskClick(index)}
+                onDragStart={(e) => dragStart(e, index)}
+                onDragEnter={(e) => dragEnter(e, index)}
+                onDragEnd={drop} key = {index.toString()}>
+                  {task.taskEditable ? (
+                    <input
+                      type="text"
+                      value={inputValue}
+                      onChange={(e) => setInputValue(e.target.value)}
+                      onKeyDown={(e) => {if (e.key === "Enter")
+                                          handleTaskNameChange(index, inputValue)}}
+                    />
+                  ) : (
+                    <span>{task.taskName}</span>
+                  )}
+                </Paper>
+              ))}
+            </Container>
+            
+          <Button variant="text" onClick={() => handleNewItem()} sx={{position:'relative', bottom:'0'}}>Add Task</Button>
           
+          
+          </Stack>
+          <Card sx={{backgroundColor: '#FFF7E2', border: 2, borderColor: '#706445', borderRadius:'10px', mb:'15px'}} elevation={0}>
+            <Weather city={city} units={units} degree={degree}/>
+          </Card>
         </Grid>
       </Grid>
-      <Stack direction="row" spacing={2}>
+      <Stack direction="row" spacing={2} className='Buttons'>
         <Button variant="outlined">Add Weekly Task</Button>
         <Button variant="outlined">Add Monthly Task</Button>
         <Button variant="outlined">Add Recurring Task</Button>
         <Button variant="outlined" onClick={() => handleUnitChange(units)}>{unitdisplay}</Button>
         <Button variant="outlined" onClick={handleCityChange}>Select Location</Button>
       </Stack>
-    </div>
+      </Container>
+      
+      
+    
   );
 }
 
