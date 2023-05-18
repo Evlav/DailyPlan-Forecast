@@ -8,11 +8,11 @@ import { ThemeProvider,createTheme } from '@mui/material';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 const theme = createTheme({
-  palette: {
-    primary:{
-      main: "#fc7ebb"
-    }
-  },
+  // palette: {
+  //   primary:{
+  //     main: "#fc7ebb"
+  //   }
+  // },
   typography:{
     fontFamily: "Inter, Roboto, Helvetica"
   }

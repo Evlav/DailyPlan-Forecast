@@ -112,10 +112,11 @@ function App(){
             sx={{ fontFamily: 'Inter', fontWeight: 900, fontSize: '32px', textAlign: 'left', mb:'10px' }}>
               {days[0]}
           </Typography>
-          <Stack sx={{backgroundColor: '#FFF7E2', border: 2, borderColor: '#706445', minHeight:'300px', mb:'15px', direction:"column", justifyContent:'space-between'}}>
+          <Stack sx={{backgroundColor: '#FFF7E2', border: 2, borderColor: '#706445', minHeight:'300px', mb:'15px', direction:"column", justifyContent:'space-between'
+          , boxShadow: '0px 0px 8px -4px inset'}}>
             <Container disableGutters>
               {task.map((task, index) => (
-                <Paper color="primary" draggable onClick={() => handleTaskClick(index)}
+                <Paper elevation='1' square  sx={{backgroundColor:'#FFE8AE', height:'30px', lineHeight:'30px', my:'2px'}} draggable onClick={() => handleTaskClick(index)}
                 onDragStart={(e) => dragStart(e, index)}
                 onDragEnter={(e) => dragEnter(e, index)}
                 onDragEnd={drop} key = {index.toString()}>
@@ -134,7 +135,7 @@ function App(){
               ))}
             </Container>
             
-          <Button variant="text" onClick={() => handleNewItem()} sx={{position:'relative', bottom:'0'}}>Add Task</Button>
+          <Button variant="text" onClick={() => handleNewItem()} sx={{position:'relative', bottom:'0', color:'#000000'}}>Add Task</Button>
           
           
           </Stack>
