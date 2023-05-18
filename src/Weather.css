@@ -1,0 +1,10 @@
+.icon{
+    margin-block: 35px;
+    transform: scale(1.8);
+    filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.3));
+    stroke: #706445;
+    stroke-width: 0.5px;
+    stroke-linecap: round;
+    stroke-opacity: 50%;
+
+}

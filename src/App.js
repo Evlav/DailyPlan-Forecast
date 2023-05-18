@@ -107,7 +107,7 @@ function App(){
     
       <Container sx={{px: '30px', py:'30px'}} className="App">
       <Grid container>
-        <Grid item md={1.7} className={days[1]} key={days[1].id} >
+        <Grid item md={1.7} className={days[0]} key={days[0].id} >
           <Typography className='DayContainer'  
             sx={{ fontFamily: 'Inter', fontWeight: 900, fontSize: '32px', textAlign: 'left', mb:'10px' }}>
               {days[0]}
@@ -139,8 +139,8 @@ function App(){
           
           
           </Stack>
-          <Card sx={{backgroundColor: '#FFF7E2', border: 2, borderColor: '#706445', borderRadius:'10px', mb:'15px'}} elevation={0}>
-            <Weather city={city} units={units} degree={degree}/>
+          <Card sx={{backgroundColor: '#FFF7E2', border: 2, borderColor: '#706445', borderRadius:'10px', mb:'15px', boxShadow: '0px 0px 8px -4px inset'}} elevation={0}>
+            <Weather city={city} units={units} degree={degree} day={days[0]}/>
           </Card>
         </Grid>
       </Grid>
