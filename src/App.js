@@ -14,7 +14,7 @@ import { Card } from '@mui/material';
 
 
 function App(){
-  const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+  const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
   const [inputValue, setInputValue] = useState("");
   const [units, setUnits] = useState("metric");
   const [unitdisplay, setUnitsDis] = useState("Celcius");
@@ -34,35 +34,56 @@ function App(){
   };
 
   const drop = (e) => {
-    const copyListItems = [...task];
+    const copyListItems = [...taskMon];
     const dragItemContent = copyListItems[dragItem.current];
     copyListItems.splice(dragItem.current, 1);
     copyListItems.splice(dragOverItem.current, 0, dragItemContent);
     dragItem.current = null;
     dragOverItem.current = null;
-    setTask(copyListItems);
+    setTaskMon(copyListItems);
   };
 
-  //init list
-  const [task, setTask] = useState([
+  //init lists
+  const [taskMon, setTaskMon] = useState([
     { taskName: 'Task 1', taskEditable: false },
     { taskName: 'Task 2', taskEditable: false },
-    { taskName: 'Task 3', taskEditable: false }
   ]);
+  const [taskTue, setTaskTue] = useState([
+    { taskName: 'Task 1', taskEditable: false },
+    { taskName: 'Task 2', taskEditable: false },
+  ]);
+
+  const [taskWed, setTaskWed] = useState([
+    { taskName: 'Task 1', taskEditable: false },
+    { taskName: 'Task 2', taskEditable: false },
+  ]);
+
+  const [taskThu, setTaskThu] = useState([
+    { taskName: 'Task 1', taskEditable: false },
+    { taskName: 'Task 2', taskEditable: false },
+  ]);
+
+  const [taskFri, setTaskFri] = useState([
+    { taskName: 'Task 1', taskEditable: false },
+    { taskName: 'Task 2', taskEditable: false },
+  ]);
+
+  const daysvar = [taskMon, taskTue, taskWed, taskThu, taskFri];
 
   //new button
   function handleNewItem(){
     const newTask = { taskName : 'Untitled', taskEditable: true };
-    const newTasks = [...task, newTask];
-    setTask(newTasks);
+    const newTasks = [...taskMon, newTask];
+    setTaskMon(newTasks);
   }
 
   //handle click on task
-  function handleTaskClick(index){
-    const newTasks = [...task];
-    const allTasksEditable = task.every((task) => task.taskEditable === false);
+  function handleTaskClick(index, day){
+    console.log(day);
+    const newTasks = [...taskMon];
+    const allTasksEditable = taskMon.every((taskMon) => taskMon.taskEditable === false);
     
-    if (allTasksEditable || task[index].taskEditable === true){
+    if (allTasksEditable || taskMon[index].taskEditable === true){
       newTasks[index].taskEditable = true;
       
     }else{
@@ -71,15 +92,15 @@ function App(){
       
     }
 
-    setTask(newTasks);
+    setTaskMon(newTasks);
   }
 
   //handle rename
   function handleTaskNameChange(index, newName){
-    const newTasks = [...task];
+    const newTasks = [...taskMon];
     newTasks[index].taskName = newName;
     newTasks[index].taskEditable = false;
-    setTask(newTasks);
+    setTaskMon(newTasks);
     setInputValue("");
   }
 
@@ -106,43 +127,48 @@ function App(){
   return (
     
       <Container sx={{px: '30px', py:'30px'}} className="App">
-      <Grid container>
-        <Grid item md={1.7} className={days[0]} key={days[0].id} >
-          <Typography className='DayContainer'  
-            sx={{ fontFamily: 'Inter', fontWeight: 900, fontSize: '32px', textAlign: 'left', mb:'10px' }}>
-              {days[0]}
-          </Typography>
-          <Stack sx={{backgroundColor: '#FFF7E2', border: 2, borderColor: '#706445', minHeight:'300px', mb:'15px', direction:"column", justifyContent:'space-between'
-          , boxShadow: '0px 0px 8px -4px inset', px: '3px'}}>
-            <Container disableGutters>
-              {task.map((task, index) => (
-                <Paper elevation='1' square  sx={{backgroundColor:'#FFE8AE', height:'30px', lineHeight:'30px', my:'2px'}} draggable onClick={() => handleTaskClick(index)}
-                onDragStart={(e) => dragStart(e, index)}
-                onDragEnter={(e) => dragEnter(e, index)}
-                onDragEnd={drop} key = {index.toString()}>
-                  {task.taskEditable ? (
-                    <input
-                      type="text"
-                      value={inputValue}
-                      onChange={(e) => setInputValue(e.target.value)}
-                      onKeyDown={(e) => {if (e.key === "Enter")
-                                          handleTaskNameChange(index, inputValue)}}
-                    />
-                  ) : (
-                    <span>{task.taskName}</span>
-                  )}
-                </Paper>
-              ))}
-            </Container>
+      <Grid container spacing={4}>
+        {days.map((day, index) => (
+            <Grid item md={1.7} className={days[index]} key={days[index].id} >
+            <Typography className='DayContainer'  
+              sx={{ fontFamily: 'Inter', fontWeight: 900, fontSize: '32px', textAlign: 'left', mb:'10px' }}>
+                {days[index]}
+            </Typography>
+            <Stack sx={{backgroundColor: '#FFF7E2', border: 2, borderColor: '#706445', minHeight:'300px', mb:'15px', direction:"column", justifyContent:'space-between'
+            , boxShadow: '0px 0px 8px -4px inset', px: '3px'}}>
+              <Container disableGutters>
+                {daysvar[index].map((task, index) => (
+                  <Paper elevation='1' square  sx={{backgroundColor:'#FFE8AE', height:'30px', lineHeight:'30px', my:'2px'}} draggable onClick={() => handleTaskClick(index, days[index])}
+                  onDragStart={(e) => dragStart(e, index)}
+                  onDragEnter={(e) => dragEnter(e, index)}
+                  onDragEnd={drop} key = {index.toString()}>
+                    {task.taskEditable ? (
+                      <input
+                        type="text"
+                        value={inputValue}
+                        onChange={(e) => setInputValue(e.target.value)}
+                        onKeyDown={(e) => {if (e.key === "Enter")
+                                            handleTaskNameChange(index, inputValue)}}
+                      />
+                    ) : (
+                      <span>{task.taskName}</span>
+                    )}
+                  </Paper>
+                ))}
+              </Container>
+              
+            <Button variant="text" onClick={() => handleNewItem()} sx={{position:'relative', bottom:'0', color:'#000000'}}>Add Task</Button>
             
-          <Button variant="text" onClick={() => handleNewItem()} sx={{position:'relative', bottom:'0', color:'#000000'}}>Add Task</Button>
-          
-          
-          </Stack>
-          <Card sx={{backgroundColor: '#FFF7E2', border: 2, borderColor: '#706445', borderRadius:'10px', mb:'15px', boxShadow: '0px 0px 8px -4px inset'}} elevation={0}>
-            <Weather city={city} units={units} degree={degree} day={days[0]}/>
-          </Card>
-        </Grid>
+            
+            </Stack>
+            <Card sx={{backgroundColor: '#FFF7E2', border: 2, borderColor: '#706445', borderRadius:'10px', mb:'15px', boxShadow: '0px 0px 8px -4px inset'}} elevation={0}>
+              <Weather city={city} units={units} degree={degree} day={days[0]}/>
+            </Card>
+          </Grid>
+
+
+          ))}
+        
       </Grid>
       <Stack direction="row" spacing={2} className='Buttons'>
         <Button variant="outlined">Add Weekly Task</Button>
