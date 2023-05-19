@@ -49,8 +49,15 @@ function GetIcon(weatherData, day){
   }
 }
 
+function parseWeekData(data){
+  //Parse data
+  const parsedarray =  data.filter((item, index) => (index + 1) % 8 === 0);
+  return(parsedarray)
+}
+
 function Weather(props) {
     const [weatherData, setWeatherData] = useState(null);
+    const [weekData, setWeekData] = useState(null);
     const [error, setError] = useState(false);
 
     
@@ -67,16 +74,28 @@ function Weather(props) {
                 `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=${units}&appid=${API_KEY}`
               );
               const data = await response.json();
+
+              const weekresponse = await fetch(
+                `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=${units}&appid=${API_KEY}`
+              );
+              const data2 = await weekresponse.json();
+              
+
               setError(false);
               if (data.cod === "404") {
                 throw new Error(data.message);
               }
               setWeatherData(data);
               console.log(data);
+              setWeekData(parseWeekData(data2.list));
+              console.log(weekData);
+              
+              
             } catch (error) {
               console.error(error);
               setError(true);
               setWeatherData(null); // Reset weather data to null to indicate an error occurred
+              setWeekData(null);
             }
           }
 
@@ -89,15 +108,16 @@ function Weather(props) {
         return <Alert severity="error">An Error has occurred</Alert>
     }
 
+    
+
     return (
         <div>
         {weatherData ? (
           <Stack className="stack" sx={{alignItems: "center", justifyContent: "space-between", minHeight:"164px"}}>
             {GetIcon(weatherData, day)}
-            { console.log(day)}
             <Container sx={{mb:"10px"}}>
               <Typography>{weatherData.name}, {weatherData.sys.country}</Typography>
-              <Typography>{weatherData.main.temp}{degree}</Typography>
+              <Typography>{Math.round(weatherData.main.temp)}{degree}</Typography>
             </Container>
            
           </Stack>

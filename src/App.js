@@ -113,7 +113,7 @@ function App(){
               {days[0]}
           </Typography>
           <Stack sx={{backgroundColor: '#FFF7E2', border: 2, borderColor: '#706445', minHeight:'300px', mb:'15px', direction:"column", justifyContent:'space-between'
-          , boxShadow: '0px 0px 8px -4px inset'}}>
+          , boxShadow: '0px 0px 8px -4px inset', px: '3px'}}>
             <Container disableGutters>
               {task.map((task, index) => (
                 <Paper elevation='1' square  sx={{backgroundColor:'#FFE8AE', height:'30px', lineHeight:'30px', my:'2px'}} draggable onClick={() => handleTaskClick(index)}
