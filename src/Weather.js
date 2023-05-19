@@ -86,9 +86,7 @@ function Weather(props) {
                 throw new Error(data.message);
               }
               setWeatherData(data);
-              console.log(data);
               setWeekData(parseWeekData(data2.list));
-              console.log(weekData);
               
               
             } catch (error) {
@@ -107,8 +105,6 @@ function Weather(props) {
     if (error){
         return <Alert severity="error">An Error has occurred</Alert>
     }
-
-    
 
     return (
         <div>
