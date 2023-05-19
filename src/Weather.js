@@ -15,17 +15,18 @@ import { ReactComponent as TheDefault } from './icons/default.svg';
 import { Container } from "@mui/system";
 import { Typography } from "@mui/material";
 
-function GetIcon(weatherData, day){
-  const getIconColor = (day) => {
-    switch (day) {
-      case "Mon":
+function GetIcon(weatherData, dayindex){
+  console.log(weatherData)
+  const getIconColor = (dayindex) => {
+    switch (dayindex) {
+      case 0:
         return "#FFE8AE";
       default:
         return "#000000";
     }
   };
 
-  const iconColor = getIconColor(day);
+  const iconColor = getIconColor(dayindex);
 
   switch(weatherData.weather[0].main){
     case 'Clear':
@@ -56,7 +57,6 @@ function parseWeekData(data){
 }
 
 function Weather(props) {
-    const [weatherData, setWeatherData] = useState(null);
     const [weekData, setWeekData] = useState(null);
     const [error, setError] = useState(false);
 
@@ -64,16 +64,12 @@ function Weather(props) {
     const city = props.city;
     const units = props.units;
     const degree = props.degree;
-    const day = props.day
+    const dayindex = props.dayindex
     
     
     useEffect(() => {
         async function fetchWeather() {
             try {
-              const response = await fetch(
-                `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=${units}&appid=${API_KEY}`
-              );
-              const data = await response.json();
 
               const weekresponse = await fetch(
                 `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=${units}&appid=${API_KEY}`
@@ -82,17 +78,16 @@ function Weather(props) {
               
 
               setError(false);
-              if (data.cod === "404") {
-                throw new Error(data.message);
+              if (data2.cod === "404") {
+                throw new Error(data2.message);
               }
-              setWeatherData(data);
+           
               setWeekData(parseWeekData(data2.list));
               
               
             } catch (error) {
               console.error(error);
               setError(true);
-              setWeatherData(null); // Reset weather data to null to indicate an error occurred
               setWeekData(null);
             }
           }
@@ -108,12 +103,12 @@ function Weather(props) {
 
     return (
         <div>
-        {weatherData ? (
+        {weekData ? (
           <Stack className="stack" sx={{alignItems: "center", justifyContent: "space-between", minHeight:"164px"}}>
-            {GetIcon(weatherData, day)}
+            {GetIcon(weekData[dayindex], dayindex)}
             <Container sx={{mb:"10px"}}>
-              <Typography>{weatherData.name}, {weatherData.sys.country}</Typography>
-              <Typography>{Math.round(weatherData.main.temp)}{degree}</Typography>
+              <Typography>{city}</Typography>
+              <Typography>{weekData[dayindex].main.temp.toFixed(1)}{degree}</Typography>
             </Container>
            
           </Stack>

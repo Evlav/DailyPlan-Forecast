@@ -238,7 +238,7 @@ function App(){
             
             </Stack>
             <Card sx={{backgroundColor: '#FFF7E2', border: 2, borderColor: '#706445', borderRadius:'10px', mb:'15px', boxShadow: '0px 0px 8px -4px inset'}} elevation={0}>
-              <Weather city={city} units={units} degree={degree} day={days[index]}/>
+              <Weather city={city} units={units} degree={degree} dayindex={index}/>
             </Card>
           </Grid>
 
