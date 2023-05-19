@@ -10,6 +10,7 @@ import Weather from "./Weather.js";
 import "@fontsource/inter";
 import { Container } from '@mui/system';
 import { Card } from '@mui/material';
+import TextField from '@mui/material/TextField';
 
 
 
@@ -20,6 +21,33 @@ function App(){
   const [unitdisplay, setUnitsDis] = useState("Celcius");
   const [degree, setDegree] = useState("°C")
   const [city, setCity] = useState("London");
+
+  //init lists
+  const [taskMon, setTaskMon] = useState([
+    { taskName: 'Mon 1', taskEditable: false },
+    { taskName: 'Task 2', taskEditable: false },
+  ]);
+  const [taskTue, setTaskTue] = useState([
+    { taskName: 'Tue 1', taskEditable: false },
+    { taskName: 'Task 2', taskEditable: false },
+  ]);
+
+  const [taskWed, setTaskWed] = useState([
+    { taskName: 'Wed 1', taskEditable: false },
+    { taskName: 'Task 2', taskEditable: false },
+  ]);
+
+  const [taskThu, setTaskThu] = useState([
+    { taskName: 'Thu 1', taskEditable: false },
+    { taskName: 'Task 2', taskEditable: false },
+  ]);
+
+  const [taskFri, setTaskFri] = useState([
+    { taskName: 'Fri 1', taskEditable: false },
+    { taskName: 'Task 2', taskEditable: false },
+  ]);
+
+  const daysvar = [taskMon, taskTue, taskWed, taskThu, taskFri];
 
   //Rearrange list items
   const dragItem = useRef();
@@ -62,32 +90,6 @@ function App(){
     }
   };
 
-  //init lists
-  const [taskMon, setTaskMon] = useState([
-    { taskName: 'Mon 1', taskEditable: false },
-    { taskName: 'Task 2', taskEditable: false },
-  ]);
-  const [taskTue, setTaskTue] = useState([
-    { taskName: 'Tue 1', taskEditable: false },
-    { taskName: 'Task 2', taskEditable: false },
-  ]);
-
-  const [taskWed, setTaskWed] = useState([
-    { taskName: 'Wed 1', taskEditable: false },
-    { taskName: 'Task 2', taskEditable: false },
-  ]);
-
-  const [taskThu, setTaskThu] = useState([
-    { taskName: 'Thu 1', taskEditable: false },
-    { taskName: 'Task 2', taskEditable: false },
-  ]);
-
-  const [taskFri, setTaskFri] = useState([
-    { taskName: 'Fri 1', taskEditable: false },
-    { taskName: 'Task 2', taskEditable: false },
-  ]);
-
-  const daysvar = [taskMon, taskTue, taskWed, taskThu, taskFri];
 
   //new button
   function handleNewItem(day){
@@ -197,6 +199,11 @@ function App(){
       }
     }
 
+    const handleDeleteTask = (index, day) => {
+      const newTasks = day.filter((task, taskIndexhaha) => taskIndexhaha !== index);
+      setTaskMon(newTasks);
+    };
+
   return (
     
       <Container sx={{px: '30px', py:'30px'}} className="App">
@@ -212,20 +219,36 @@ function App(){
             , boxShadow: '0px 0px 8px -4px inset', px: '3px'}}>
               <Container disableGutters>
                 {daysvar[index].map((task, taskindex) => (
-                  <Paper elevation={1} key={taskindex} square  sx={{backgroundColor:'#FFE8AE', height:'30px', lineHeight:'30px', my:'2px'}} 
+                  <Paper elevation={1} key={taskindex} square  
+                  sx={{backgroundColor:'#FFE8AE', height:'30px', lineHeight:'30px', my:'2px', px:'1px',
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',}} 
                   draggable onClick={() => handleTaskClick(taskindex, daysvar[index])}
                   onDragStart={(e) => dragStart(e, taskindex, daysvar[index])}
                   onDragEnter={(e) => dragEnter(e, taskindex, daysvar[index])}
                   onDragEnd={(e) => drop(e, daysvar[index])}
 >
                     {task.taskEditable ? (
-                      <input
-                        type="text"
-                        value={inputValue}
-                        onChange={(e) => setInputValue(e.target.value)}
-                        onKeyDown={(e) => {if (e.key === "Enter")
-                                            handleTaskNameChange(taskindex, inputValue, daysvar[index])}}
-                      />
+                      
+                      <TextField 
+                      size='small'
+                      placeholder="Untitled Task"
+                      variant="standard"
+                      InputProps={{
+                        disableUnderline: true,
+                        style:{
+                          fontSize:'16px'
+                        }
+                      }}
+                      value={inputValue}
+                      onChange={(e) => setInputValue(e.target.value)}
+                      onKeyDown={(e) => {if (e.key === "Enter")
+                                            handleTaskNameChange(taskindex, inputValue, daysvar[index])
+                                          else if (e.key === "Delete")
+                                            handleDeleteTask(taskindex, daysvar[index])
+
+                                        }} />
                     ) : (
                       <span>{task.taskName}</span>
                     )}
