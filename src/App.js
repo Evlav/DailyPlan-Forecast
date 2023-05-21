@@ -11,6 +11,8 @@ import "@fontsource/inter";
 import { Container } from '@mui/system';
 import { Card } from '@mui/material';
 import TextField from '@mui/material/TextField';
+import { ThemeProvider } from '@mui/material/styles';
+import { montheme, tuetheme, wedtheme, thutheme, fritheme} from './themes'; // Import your custom theme
 
 
 
@@ -48,6 +50,8 @@ function App(){
   ]);
 
   const daysvar = [taskMon, taskTue, taskWed, taskThu, taskFri];
+
+  const themevar = [montheme, tuetheme, wedtheme, thutheme, fritheme]
 
   //Rearrange list items
   const dragItem = useRef();
@@ -119,9 +123,9 @@ function App(){
 
   //handle click on task
  function handleTaskClick(index, day) {
-  console.log(day);
+  const temp = [...taskMon, ...taskTue, ...taskWed, ...taskThu, ...taskFri];
   const newTasks = [...day];
-  const allTasksEditable = newTasks.every((task) => task.taskEditable === false);
+  const allTasksEditable = temp.every((task) => task.taskEditable === false);
 
   if (allTasksEditable || newTasks[index].taskEditable === true) {
     newTasks[index].taskEditable = true;
@@ -210,61 +214,62 @@ function App(){
       <Grid container spacing={4}>
         
         {days.map((thisday, index) => (
-            <Grid item md={1.7} key={days[index]} >
-            <Typography className='DayContainer'  
-              sx={{ fontFamily: 'Inter', fontWeight: 900, fontSize: '32px', textAlign: 'left', mb:'10px' }}>
-                {days[index]}
-            </Typography>
-            <Stack sx={{backgroundColor: '#FFF7E2', border: 2, borderColor: '#706445', minHeight:'300px', mb:'15px', direction:"column", justifyContent:'space-between'
-            , boxShadow: '0px 0px 8px -4px inset', px: '3px'}}>
-              <Container disableGutters>
-                {daysvar[index].map((task, taskindex) => (
-                  <Paper elevation={1} key={taskindex} square  
-                  sx={{backgroundColor:'#FFE8AE', height:'30px', lineHeight:'30px', my:'2px', px:'1px',
-                      display: 'flex',
-                      justifyContent: 'center',
-                      alignItems: 'center',}} 
-                  draggable onClick={() => handleTaskClick(taskindex, daysvar[index])}
-                  onDragStart={(e) => dragStart(e, taskindex, daysvar[index])}
-                  onDragEnter={(e) => dragEnter(e, taskindex, daysvar[index])}
-                  onDragEnd={(e) => drop(e, daysvar[index])}
->
-                    {task.taskEditable ? (
-                      
-                      <TextField 
-                      size='small'
-                      placeholder="Untitled Task"
-                      variant="standard"
-                      InputProps={{
-                        disableUnderline: true,
-                        style:{
-                          fontSize:'16px'
-                        }
-                      }}
-                      value={inputValue}
-                      onChange={(e) => setInputValue(e.target.value)}
-                      onKeyDown={(e) => {if (e.key === "Enter")
-                                            handleTaskNameChange(taskindex, inputValue, daysvar[index])
-                                          else if (e.key === "Delete")
-                                            handleDeleteTask(taskindex, daysvar[index])
+            <ThemeProvider theme={themevar[index]}>
+              <Grid item md={1.7} key={days[index]} >
+              <Typography className='DayContainer'  
+                sx={{ fontFamily: 'Inter', fontWeight: 900, fontSize: '32px', textAlign: 'left', mb:'10px' }}>
+                  {days[index]}
+              </Typography>
+              <Stack sx={{backgroundColor: themevar[index].palette.primary.main, border: 2, borderColor: themevar[index].palette.primary.border, minHeight:'300px', mb:'15px', direction:"column", justifyContent:'space-between'
+              , boxShadow: '0px 0px 8px -4px inset', px: '3px'}}>
+                <Container disableGutters>
+                  {daysvar[index].map((task, taskindex) => (
+                    <Paper elevation={1} key={taskindex} square  
+                    sx={{backgroundColor: themevar[index].palette.primary.task, height:'30px', lineHeight:'30px', my:'2px', px:'1px',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',}} 
+                    draggable onClick={() => handleTaskClick(taskindex, daysvar[index])}
+                    onDragStart={(e) => dragStart(e, taskindex, daysvar[index])}
+                    onDragEnter={(e) => dragEnter(e, taskindex, daysvar[index])}
+                    onDragEnd={(e) => drop(e, daysvar[index])}
+  >
+                      {task.taskEditable ? (
+                        
+                        <TextField 
+                        size='small'
+                        placeholder="Untitled Task"
+                        variant="standard"
+                        InputProps={{
+                          disableUnderline: true,
+                          style:{
+                            fontSize:'16px'
+                          }
+                        }}
+                        value={inputValue}
+                        onChange={(e) => setInputValue(e.target.value)}
+                        onKeyDown={(e) => {if (e.key === "Enter")
+                                              handleTaskNameChange(taskindex, inputValue, daysvar[index])
+                                            else if (e.key === "Delete")
+                                              handleDeleteTask(taskindex, daysvar[index])
 
-                                        }} />
-                    ) : (
-                      <span>{task.taskName}</span>
-                    )}
-                  </Paper>
-                ))}
-              </Container>
+                                          }} />
+                      ) : (
+                        <span>{task.taskName}</span>
+                      )}
+                    </Paper>
+                  ))}
+                </Container>
+                
+              <Button variant="text" onClick={() => handleNewItem(daysvar[index])} sx={{position:'relative', bottom:'0', color:'#000000'}}>Add Task</Button>
               
-            <Button variant="text" onClick={() => handleNewItem(daysvar[index])} sx={{position:'relative', bottom:'0', color:'#000000'}}>Add Task</Button>
-            
-            
-            </Stack>
-            <Card sx={{backgroundColor: '#FFF7E2', border: 2, borderColor: '#706445', borderRadius:'10px', mb:'15px', boxShadow: '0px 0px 8px -4px inset'}} elevation={0}>
-              <Weather city={city} units={units} degree={degree} dayindex={index}/>
-            </Card>
-          </Grid>
-
+              
+              </Stack>
+              <Card sx={{backgroundColor: themevar[index].palette.primary.main, border: 2, borderColor: themevar[index].palette.primary.border, borderRadius:'10px', mb:'15px', boxShadow: '0px 0px 8px -4px inset'}} elevation={0}>
+                <Weather city={city} units={units} degree={degree} dayindex={index}/>
+              </Card>
+            </Grid>
+          </ThemeProvider>
 
           ))}
         

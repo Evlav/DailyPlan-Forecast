@@ -16,7 +16,6 @@ import { Container } from "@mui/system";
 import { Typography } from "@mui/material";
 
 function GetIcon(weatherData, dayindex){
-  console.log(weatherData)
   const getIconColor = (dayindex) => {
     switch (dayindex) {
       case 0:
