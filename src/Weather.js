@@ -14,18 +14,12 @@ import { ReactComponent as Fog } from './icons/Fog.svg';
 import { ReactComponent as TheDefault } from './icons/default.svg';
 import { Container } from "@mui/system";
 import { Typography } from "@mui/material";
+import { montheme, tuetheme, wedtheme, thutheme, fritheme} from './themes'; // Import your custom theme
+
 
 function GetIcon(weatherData, dayindex){
-  const getIconColor = (dayindex) => {
-    switch (dayindex) {
-      case 0:
-        return "#FFE8AE";
-      default:
-        return "#000000";
-    }
-  };
-
-  const iconColor = getIconColor(dayindex);
+  const themes = [montheme, tuetheme, wedtheme, thutheme, fritheme];
+  const iconColor = themes[dayindex].palette.primary.border
 
   switch(weatherData.weather[0].main){
     case 'Clear':
