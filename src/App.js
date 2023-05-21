@@ -59,6 +59,7 @@ function App(){
 
   const dragStart = (e, position, day) => {
     dragItem.current = position;
+
   };
 
   const dragEnter = (e, position, day) => {
@@ -229,6 +230,7 @@ function App(){
                         display: 'flex',
                         justifyContent: 'center',
                         alignItems: 'center',}} 
+                        className='draggable-item'
                     draggable onClick={() => handleTaskClick(taskindex, daysvar[index])}
                     onDragStart={(e) => dragStart(e, taskindex, daysvar[index])}
                     onDragEnter={(e) => dragEnter(e, taskindex, daysvar[index])}
