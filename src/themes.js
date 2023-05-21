@@ -51,10 +51,12 @@ export const fritheme = createTheme({
     },
   });
 
-export default {
+const themes = {
     montheme,
     tuetheme,
     wedtheme,
     thutheme,
     fritheme
 };
+
+export default themes
