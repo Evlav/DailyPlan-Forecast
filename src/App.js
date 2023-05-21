@@ -215,17 +215,17 @@ function App(){
       <Grid container spacing={4}>
         
         {days.map((thisday, index) => (
-            <ThemeProvider theme={themevar[index]}>
-              <Grid item md={1.7} key={days[index]} >
-              <Typography className='DayContainer'  
+            <ThemeProvider theme={themevar[index]} key={days[index]+'theme'}>
+              <Grid item md={1.7} key={days[index]+'DayContainer'} >
+              <Typography key={days[index]+'DayText'}
                 sx={{ fontFamily: 'Inter', fontWeight: 900, fontSize: '32px', textAlign: 'left', mb:'10px' }}>
                   {days[index]}
               </Typography>
               <Stack sx={{backgroundColor: themevar[index].palette.primary.main, border: 2, borderColor: themevar[index].palette.primary.border, minHeight:'300px', mb:'15px', direction:"column", justifyContent:'space-between'
-              , boxShadow: '0px 0px 8px -4px inset', px: '3px'}}>
-                <Container disableGutters>
+              , boxShadow: '0px 0px 8px -4px inset', px: '3px'}} key={days[index]+'stack'}>
+                <Container disableGutters key={days[index]+'substack'}>
                   {daysvar[index].map((task, taskindex) => (
-                    <Paper elevation={1} key={taskindex} square  
+                    <Paper elevation={1} key={taskindex+'task'} square  
                     sx={{backgroundColor: themevar[index].palette.primary.task, height:'30px', lineHeight:'30px', my:'2px', px:'1px',
                         display: 'flex',
                         justifyContent: 'center',
@@ -238,7 +238,7 @@ function App(){
   >
                       {task.taskEditable ? (
                         
-                        <TextField 
+                        <TextField key={taskindex+'textfield'}
                         size='small'
                         placeholder="Untitled Task"
                         variant="standard"
@@ -263,12 +263,12 @@ function App(){
                   ))}
                 </Container>
                 
-              <Button variant="text" onClick={() => handleNewItem(daysvar[index])} sx={{position:'relative', bottom:'0', color:'#000000'}}>Add Task</Button>
+              <Button variant="text" key={days[index]+'button'} onClick={() => handleNewItem(daysvar[index])} sx={{position:'relative', bottom:'0', color:'#000000'}}>Add Task</Button>
               
               
               </Stack>
               <Card sx={{backgroundColor: themevar[index].palette.primary.main, border: 2, borderColor: themevar[index].palette.primary.border, borderRadius:'10px', mb:'15px', boxShadow: '0px 0px 8px -4px inset'}} elevation={0}>
-                <Weather city={city} units={units} degree={degree} dayindex={index}/>
+                <Weather city={city} units={units} degree={degree} dayindex={index} key={days[index]+'Weather'}/>
               </Card>
             </Grid>
           </ThemeProvider>
