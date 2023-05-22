@@ -8,6 +8,7 @@ import './Weather.css';
 import { ReactComponent as Sunny } from './icons/Sunny.svg';
 import { ReactComponent as Cloudy } from './icons/Cloudy.svg';
 import { ReactComponent as Drizzle } from './icons/Drizzle.svg';
+import { ReactComponent as Rain } from './icons/Rain.svg';
 import { ReactComponent as Thunderstorm } from './icons/Thunderstorm.svg';
 import { ReactComponent as Snow } from './icons/Snow.svg';
 import { ReactComponent as Fog } from './icons/Fog.svg';
@@ -26,6 +27,8 @@ function GetIcon(weatherData, dayindex){
       return <Sunny className="icon" fill={iconColor}/>
     case 'Clouds':
       return <Cloudy className="icon" fill={iconColor}/>
+    case 'Rain':
+      return <Rain className="icon" fill={iconColor}/>
     case 'Drizzle':
       return <Drizzle className="icon" fill={iconColor}/>
     case 'ThunderStorm':
@@ -68,7 +71,7 @@ function Weather(props) {
                 `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=${units}&appid=${API_KEY}`
               );
               const data2 = await weekresponse.json();
-              
+
 
               setError(false);
               if (data2.cod === "404") {
@@ -76,6 +79,9 @@ function Weather(props) {
               }
            
               setWeekData(parseWeekData(data2.list));
+              
+
+
               
               
             } catch (error) {
