@@ -23,7 +23,7 @@ function App(){
   const [unitdisplay, setUnitsDis] = useState("Celcius");
   const [degree, setDegree] = useState("°C")
   const [city, setCity] = useState("Vancouver");
-  const [thisHighlight, setThisHighlight] = useState([]);
+  const [thisHighlight, setThisHighlight] = useState([null, null]);
 
   //init lists
   const [taskMon, setTaskMon] = useState([
@@ -91,7 +91,7 @@ function App(){
   function handleNewItem(day, dayindex){
     const newTask = { taskName : 'Untitled', taskEditable: true, highlighted: true, day: dayindex};
     const newTasks = [...day, newTask];
-    
+    setThisHighlight([newTasks.indexOf(newTask), dayindex])
     writeDay(day, newTasks);
   }
 
@@ -115,27 +115,44 @@ function App(){
 } // Added closing brace here
 
   function handleEditing(index, day){
-    const temp = [...taskMon, ...taskTue, ...taskWed, ...taskThu, ...taskFri];
-    const newTasks = [...day];
-    const allTasksEditable = temp.every((task) => task.taskEditable === false);
-  
-    if (allTasksEditable || newTasks[index].taskEditable === true) {
-      newTasks[index].taskEditable = true;
-    } else {
-      newTasks[index].taskEditable = false;
+    if (index !== null && day !== null){
+      const temp = [...taskMon, ...taskTue, ...taskWed, ...taskThu, ...taskFri];
+      const newTasks = [...day];
+      const allTasksEditable = temp.every((task) => task.taskEditable === false);
+    
+      if (allTasksEditable || newTasks[index].taskEditable === true) {
+        newTasks[index].taskEditable = true;
+      } else {
+        newTasks[index].taskEditable = false;
+      }
+      writeDay(day, newTasks)
     }
-    writeDay(day, newTasks)
   }
 
   //handle rename
   function handleTaskNameChange(index, newName, day){
-    const newTasks = [...day];
-    newTasks[index].taskName = newName;
-    newTasks[index].taskEditable = false;
-    writeDay(day, newTasks)    
-    setInputValue("");
-      
+    if (index !== null && day !== null){
+      const newTasks = [...day];
+      newTasks[index].taskName = newName;
+      newTasks[index].taskEditable = false;
+      writeDay(day, newTasks)    
+      setInputValue("");
+      setThisHighlight([null, null]);
+      }
+    
     }
+
+    const handleDeleteTask = (index, day) => {
+      if (index !== null && day !== null){
+        console.log(index, day)
+        const newTasks = day.filter((task, taskIndexhaha) => taskIndexhaha !== index);
+        setThisHighlight([null, null]);
+        writeDay(day, newTasks);
+      }
+      
+    };
+
+
 
     //handle input location{
  
@@ -163,12 +180,7 @@ function App(){
       }
     }
 
-    const handleDeleteTask = (index, day) => {
-      console.log(index, day)
-      const newTasks = day.filter((task, taskIndexhaha) => taskIndexhaha !== index);
-      
-      writeDay(day, newTasks);
-    };
+
 
   return (
     
