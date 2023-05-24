@@ -106,7 +106,7 @@ function Weather(props) {
           <Stack className="stack" sx={{alignItems: "center", justifyContent: "space-between", minHeight:"164px"}}>
             {GetIcon(weekData[dayindex], dayindex)}
             <Container sx={{mb:"10px"}}>
-              <Typography>{city}</Typography>
+              <Typography sx={{fontFamily:"Inter, Roboto", fontWeight: 400, fontSize: '20px',}}>{city}</Typography>
               <Typography>{weekData[dayindex].main.temp.toFixed(1)}{degree}</Typography>
             </Container>
            
