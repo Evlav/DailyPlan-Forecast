@@ -9,12 +9,19 @@ import { useState, useRef } from 'react';
 import Weather from "./Weather.js";
 import "@fontsource/inter";
 import { Container } from '@mui/system';
-import { Card } from '@mui/material';
+import { Autocomplete, Card } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import { ThemeProvider } from '@mui/material/styles';
 import { montheme, tuetheme, wedtheme, thutheme, fritheme} from './themes'; // Import your custom theme
-
-
+import Dialog from '@mui/material/Dialog';
+import ListItemText from '@mui/material/ListItemText';
+import ListItem from '@mui/material/ListItem';
+import List from '@mui/material/List';
+import Divider from '@mui/material/Divider';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
 
 function App(){
   const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
@@ -38,6 +45,7 @@ function App(){
 
   const themevar = [montheme, tuetheme, wedtheme, thutheme, fritheme]
 
+  const options = ['Option 1', 'Option 2', 'Option 3'];
 
 
   function writeDay(day, item){
@@ -156,8 +164,8 @@ function App(){
 
     //handle input location{
  
-    const handleCityChange = (e) => {
-      const newCity = prompt("Input City");
+    const handleCityChange = (city) => {
+      const newCity = city
       if (newCity !== null) {
         setCity(newCity);
       }
@@ -180,11 +188,83 @@ function App(){
       }
     }
 
+    //Search City
+    const [open, setOpen] = React.useState(false);
+
+    const handleClickOpen = () => {
+      setOpen(true);
+    };
+  
+    const handleClose = () => {
+      setOpen(false);
+      setInputValue("");
+    };
 
 
   return (
     
       <Container sx={{px: '30px', py:'30px'}} className="App">
+      <Dialog open={open} onClose={handleClose}>
+      <AppBar sx={{ position: 'relative' }}>
+          <Toolbar>
+            <IconButton
+              edge="start"
+              color="inherit"
+              onClick={handleClose}
+              aria-label="close"
+            >
+              <CloseIcon />
+            </IconButton>
+            <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
+              Sound
+            </Typography>
+            <Button autoFocus color="inherit" onClick={handleClose}>
+              save
+            </Button>
+          </Toolbar>
+        </AppBar>
+        <Autocomplete 
+        freeSolo
+        autoFocus
+        
+         options={options}
+         
+          renderInput={(params) => (
+         
+          <TextField
+              {...params}
+              
+              margin="dense"
+              id="name"
+              label="Input City"
+              type="search"
+              fullWidth
+              variant="standard"
+              onKeyDown={(e) => {if (e.key === "Enter"){
+                e.preventDefault();
+                handleCityChange(params.inputProps.value);
+                handleClose();
+                e.stopPropagation();
+                console.log(params.inputProps.value)
+                }}}
+              
+            />)}
+           />
+        
+        
+        <List>
+          <ListItem button>
+            <ListItemText primary="Phone ringtone" secondary="Titania" />
+          </ListItem>
+          <Divider />
+          <ListItem button>
+            <ListItemText
+              primary="Default notification ringtone"
+              secondary="Tethys"
+            />
+          </ListItem>
+        </List>
+      </Dialog>
       <Grid container spacing={6}>
         
         {days.map((thisday, index) => (
@@ -214,6 +294,7 @@ function App(){
                       {task.taskEditable ? (
                         
                         <TextField key={taskindex+'textfield'}
+                        autoFocus
                         size='small'
                         placeholder="Untitled Task"
                         variant="standard"
@@ -262,7 +343,7 @@ function App(){
       <Stack direction="row-reverse" spacing={2} className='Buttons'>
         
         <Button variant="outlined" onClick={() => handleUnitChange(units)}>{unitdisplay}</Button>
-        <Button variant="outlined" onClick={handleCityChange}>Select Location</Button>
+        <Button variant="outlined" onClick={() => handleClickOpen()}>Select Location</Button>
         <Button variant="outlined" onClick={() => handleEditing(thisHighlight[0], daysvar[thisHighlight[1]])}>Rename Task</Button>
         <Button variant="outlined" onClick={() => handleDeleteTask(thisHighlight[0], daysvar[thisHighlight[1]])}>Delete Task</Button>
         {/* <Button variant="outlined" onClick={handleEditing(thisHighlight[0], daysvar[thisHighlight[1]])}>Rename Task</Button> */}
